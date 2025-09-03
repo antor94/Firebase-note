@@ -7,6 +7,7 @@ import Registation from './pages/Registation'
 import { ToastContainer } from 'react-toastify'
 import './App.css'
 import app from './Firebase.config'
+import Bin from './pages/Bin'
 
 const App = () => {
 
@@ -14,6 +15,7 @@ const App = () => {
     <Route >
       <Route path='/' element={<LayoutOne />}>
       <Route index element={<Home />} ></Route>
+      <Route path='/bin' element={<Bin />} ></Route>
       </Route>
       <Route path='/login' element={<Login />}></Route>
       <Route path='/registraion' element={<Registation />} ></Route>
@@ -27,9 +29,7 @@ const App = () => {
      <ToastContainer />
     <RouterProvider router={myRoute} />
     
-    
-    
-    
+
     
     </>
   )
