@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
 import { useSelector } from 'react-redux';
@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
   const [showColorOptions, setShowColorOptions] = useState(false);
   const [noteColor, setNoteColor] = useState('#2D2F31');
   const [textColor, setTextColor] = useState('text-white');
+
+  const [ inputValue , setInputValue] = useState('')
   
   const [noteHead , setNodHead] = useState()
 
@@ -139,9 +141,11 @@ import { useSelector } from 'react-redux';
                               e.stopPropagation();
                               handleColorSelect(color);
                             }}
+                            
                           ></div>
                         ))}
                       </div>
+                      
                     )}
                   </div>
 

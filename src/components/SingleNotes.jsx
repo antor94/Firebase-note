@@ -6,7 +6,8 @@ import { TiDelete } from "react-icons/ti";
 
 const SingleNotes = () => {
   const [allNotes, setAllNotes] = useState([]);
-  const [loading, setLoading] = useState(true); 
+
+  const [found , setFound ] = useState(null)
 
   const db = getDatabase();
   const currentUser = useSelector((state) => state.myRedux.value);
@@ -17,22 +18,22 @@ const SingleNotes = () => {
 
       snapshot.forEach((item) => {
         if (item.val().noteId === currentUser.uid) {
-          myArr.push({ key: item.key, notes: item.val() });
+          myArr.push({ key: item.key, notes: item.val() });             
         }
       });
 
       setAllNotes(myArr);
-      setLoading(false); 
+          setFound(myArr.length > 0); 
+    
     });
   }, []);
 
 
   const removeItems =(data)=>{
-    console.log(data)
   set(push(ref(db, 'removeNote/' )), {
     noteId:currentUser.uid,
     noteHead:data.notes.noteHead,
-        noteContent:data.notes.noteContent,
+    noteContent:data.notes.noteContent,
     noteColor:data.notes.noteColor,
     textColor:data.notes.textColor
 
@@ -41,16 +42,21 @@ const SingleNotes = () => {
     
   }
 
-
-
-
   return (
+
+    <>
+
     <div className='min-h-screen bg-[#202124] p-6'>
       <div className="flex justify-center flex-wrap gap-4">
 
-{/* -------------- loading part */}
-        {loading && (
-          <div role="status" className="max-w-sm p-4 border border-gray-200 rounded-sm shadow-sm animate-pulse md:p-6 dark:border-gray-700">
+        {
+
+          found == null ?
+      <h2 className="text-[64px] font-bold font-sans text-[#fff]">🗒️ No notes found.</h2>
+      :
+
+      allNotes.length == 0?
+      <div role="status" className="max-w-sm p-4 border border-gray-200 rounded-sm shadow-sm animate-pulse md:p-6 dark:border-gray-700">
             <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-sm dark:bg-gray-700">
               <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                 <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
@@ -72,25 +78,33 @@ const SingleNotes = () => {
             </div>
             <span className="sr-only">Loading...</span>
           </div>
+          :
+    <div className='flex flex-wrap justify-center gap-4'>
 
-        )}
 
-        {!loading && allNotes.length === 0 && (
-          <h2 className="text-[64px] font-bold font-sans text-[#fff]">🗒️ No notes found.</h2>
-        )}
-
-        {/* --------------- cart data */}
-
-        {!loading && allNotes.length > 0 && allNotes.map((item) => (
-          <div key={item.key} style={{ backgroundColor: item.notes.noteColor }} className="relative w-[500px] p-4 rounded-lg ">
+          {
+            
+            allNotes.map((item) => (
+              <div key={item.key} style={{ backgroundColor: item.notes.noteColor }} className="relative w-[500px] p-4 rounded-lg ">
             <h2 className="text-[24px] font-sans font-medium text-[#fff]">{item.notes.noteHead}</h2>
             <p className="text-[18px] font-normal font-sans text-[#ddd]">{item.notes.noteContent}</p>
             <button onClick={()=>removeItems(item)} className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
           </div>
-        ))}
+        ))
+      
+      }
+      </div>
+
+        }
+
       </div>
     </div>
+
+    </>
+
   );
 };
+
+
 
 export default SingleNotes;

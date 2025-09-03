@@ -36,8 +36,10 @@ const Navbar = () => {
               </div>
 
               <div className='flex gap-[24px] items-center'> 
-                <RiDeleteBin6Line className='text-[24px]' />
-                <IoHomeOutline className='text-[24px]' />
+                <Link to={'/bin'}>
+                <RiDeleteBin6Line  className='text-[24px]' />
+                </Link>
+      
 
               </div>
     
