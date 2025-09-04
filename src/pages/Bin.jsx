@@ -29,7 +29,15 @@ const Bin = () => {
       
     }
 
+const handelAll = ()=>{
+  deleteNotes.map((item)=>{
+    
+    console.log(item.key)
+    remove(ref(db , 'removeNote/' + item.key ))
 
+  })
+
+}
 
 
 
@@ -44,7 +52,7 @@ const Bin = () => {
 
     
     
-   <button className='py-1 px-5 m-[20px] bg-white text-lg font-sans text-gray-600 border border-[#455na] '>Delete All</button>
+   <button onClick={handelAll} className='py-1 px-5 m-[20px] bg-white text-lg font-sans hover:bg-transparent hover:border hover:text-white duration-[.3s] border-white  text-gray-600 border  '>Delete All</button>
 <div className='flex  flex-wrap justify-center gap-[30px] mt-[40px]'>
    {
     deleteNotes.map((item)=>(
