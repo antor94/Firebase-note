@@ -7,7 +7,7 @@ import { TiDelete } from "react-icons/ti";
 const SingleNotes = () => {
   const [allNotes, setAllNotes] = useState([]);
 
-  const [found , setFound ] = useState(null)
+  const [found , setFound ] = useState('')
 
   const db = getDatabase();
   const currentUser = useSelector((state) => state.myRedux.value);
@@ -23,7 +23,7 @@ const SingleNotes = () => {
       });
 
       setAllNotes(myArr);
-          setFound(myArr.length > 0); 
+
     
     });
   }, []);
@@ -52,10 +52,7 @@ const SingleNotes = () => {
         {
 
           found == null ?
-      <h2 className="text-[64px] font-bold font-sans text-[#fff]">🗒️ No notes found.</h2>
-      :
 
-      allNotes.length == 0?
       <div role="status" className="max-w-sm p-4 border border-gray-200 rounded-sm shadow-sm animate-pulse md:p-6 dark:border-gray-700">
             <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-sm dark:bg-gray-700">
               <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
@@ -78,6 +75,11 @@ const SingleNotes = () => {
             </div>
             <span className="sr-only">Loading...</span>
           </div>
+      :
+
+      allNotes.length == 0?
+      <h2 className="text-[64px] font-bold font-sans text-[#fff]">🗒️ No notes found.</h2>
+
           :
     <div className='flex flex-wrap justify-center gap-4'>
 

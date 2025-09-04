@@ -24,6 +24,12 @@ const Bin = () => {
     },[])
 
 
+    const removeNotes = (noteKey)=>{
+      remove(ref(db , 'removeNote/' + noteKey))
+      
+    }
+
+
 
 
 
@@ -34,21 +40,27 @@ const Bin = () => {
     <>
 
 
-    <div className='bg-[#202124] min-h-screen'>
+    <div className='bg-[#202124]  min-h-screen'>
 
     
     
-   <button className='py-1 px-5 bg-white text-lg font-sans text-gray-600 border border-[#455na] '>Delete All</button>
+   <button className='py-1 px-5 m-[20px] bg-white text-lg font-sans text-gray-600 border border-[#455na] '>Delete All</button>
+<div className='flex  flex-wrap justify-center gap-[30px] mt-[40px]'>
    {
     deleteNotes.map((item)=>(
-                 <div key={item.key}   className={` bg-[${item.data.noteColor}] relative w-[500px] p-4 rounded-lg `}>
+      
+                 <div key={item.key} style={{ backgroundColor: item.data.noteColor }}   className={` relative w-[500px]  p-4 rounded-lg `}>
                 <h2 className="text-[24px] font-sans font-medium text-[#fff]">{item.data.noteHead}</h2>
                 <p className="text-[18px] font-normal font-sans text-[#ddd]">{item.data.noteContent}</p>
-                <button  className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
+                <button onClick={()=>removeNotes(item.key)} className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
               </div>
-
-    ))
-   }
+              
+              
+              
+              
+            ))
+          }
+          </div>
     
             
     </div>
