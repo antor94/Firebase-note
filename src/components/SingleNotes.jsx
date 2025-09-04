@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 import { useSelector } from 'react-redux';
 import { TiDelete } from "react-icons/ti";
+import { FiEdit2 } from "react-icons/fi";
 
 const SingleNotes = () => {
   const [allNotes, setAllNotes] = useState([]);
@@ -91,6 +92,7 @@ const SingleNotes = () => {
             <h2 className="text-[24px] font-sans font-medium text-[#fff]">{item.notes.noteHead}</h2>
             <p className="text-[18px] font-normal font-sans text-[#ddd]">{item.notes.noteContent}</p>
             <button onClick={()=>removeItems(item)} className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
+            <button onClick={()=>removeItems(item)} className=' absolute top-[15px] right-[60px]'><FiEdit2 className='text-[20px] text-amber-200 hover:text-green-500 duration-[.3s] ' /></button>
           </div>
         ))
       

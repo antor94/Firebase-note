@@ -1,8 +1,9 @@
-import { getDatabase, onValue, ref, remove } from 'firebase/database'
+import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
 import { TiDelete } from 'react-icons/ti'
 import { useSelector } from 'react-redux';
 import { data } from 'react-router';
+import { GiRecycle } from "react-icons/gi";
 
 const Bin = () => {
 
@@ -31,11 +32,24 @@ const Bin = () => {
 
 const handelAll = ()=>{
   deleteNotes.map((item)=>{
-    
-    console.log(item.key)
     remove(ref(db , 'removeNote/' + item.key ))
 
   })
+
+}
+
+
+const handelRecover =(Data)=>{
+    set(push(ref(db, 'allNotes/' )), {
+      noteId:currentUser.uid,
+      noteHead:Data.data.noteHead,
+      noteContent:Data.data.noteContent,
+      noteColor:Data.data.noteColor,
+      textColor:Data.data.textColor
+  
+    });
+    remove(ref(db , 'removeNote/' + Data.key ))
+
 
 }
 
@@ -61,6 +75,7 @@ const handelAll = ()=>{
                 <h2 className="text-[24px] font-sans font-medium text-[#fff]">{item.data.noteHead}</h2>
                 <p className="text-[18px] font-normal font-sans text-[#ddd]">{item.data.noteContent}</p>
                 <button onClick={()=>removeNotes(item.key)} className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
+                <button onClick={()=>handelRecover(item)} className=' absolute top-[14px] right-[70px]'><GiRecycle className='text-[24px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
               </div>
               
               
