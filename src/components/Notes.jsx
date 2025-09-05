@@ -1,5 +1,3 @@
-// 
-
 import React, { useEffect, useState } from 'react';
 import { getDatabase, push, ref, set, update } from "firebase/database";
 import { useSelector } from 'react-redux';
@@ -10,17 +8,18 @@ const CreateNote = ({ noteData }) => {
   const [showTextarea, setShowTextarea] = useState(false);
   const [noteColor, setNoteColor] = useState('#2D2F31'); 
   const [textColor, setTextColor] = useState('text-white');
-
   const currentUser = useSelector((state) => state.myRedux.value);
+
+
+  const [isUpdate , setIsUpdate] = useState(false)
+
+
+
+
   const db = getDatabase();
 
   const handleAdd = () => {
-
-
     if(!title || !content) return alert('Not Set Data')
-
-
-
     set(push(ref(db, 'allNotes/')), {
       noteId: currentUser.uid,
       noteHead: title,
@@ -49,9 +48,17 @@ const CreateNote = ({ noteData }) => {
   };
 
   useEffect(() => {
+
+    if(noteData){
+      setIsUpdate(true)
+      
     setTitle(noteData?.notes?.noteHead );
     setContent(noteData?.notes?.noteContent );
     setNoteColor(noteData?.notes?.noteColor || '#2D2F31');
+    }else{
+    setTitle('');
+    setContent('');
+    }
   }, [noteData]);
 
   const handleUpdate = () => {
@@ -61,6 +68,7 @@ const CreateNote = ({ noteData }) => {
       noteColor: noteColor,
       textColor: textColor
     });
+    setIsUpdate(false)
     setTitle('');
     setContent('');
   };
@@ -68,23 +76,10 @@ const CreateNote = ({ noteData }) => {
   return (
 
     <>
-    
-
-
-
     <div className="bg-[#202124] flex justify-center items-center p-6 font-sans text-white text-center">
       <div  style={{ backgroundColor: noteColor }}  className={`w-[500px] p-4 rounded-md cursor-text  transition-all duration-300 ${textColor}`} >
-
-   
-
-
-
-
         <div className="flex flex-col">
-
-
   <div className='flex'>
-
           <input
             type="text"
             placeholder="Title."
@@ -93,28 +88,25 @@ const CreateNote = ({ noteData }) => {
             className={`bg-transparent w-full placeholder-gray-400 outline-none ${textColor}`}
             onClick={() => setShowTextarea(true)}
           />
-
+          {
+            isUpdate ?
+            <button onClick={handleUpdate} className='w-[200px]'>Update Note</button>
+:
           <button onClick={handleAdd} className='w-[200px]'>Add Note</button>
+          }
 
   </div>
-
-
-
           {/* -------------- textarea */}
 
           {showTextarea && (
-
-<div>
+        <div>
 
               <textarea
                 placeholder="Write more details..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className={`bg-transparent w-full pt-[20px] placeholder-gray-400 outline-none resize-none h-24 ${textColor}`}  />
-
-
-
-
+                
               <div className="flex justify-between items-center w-full mt-2">
                 <div className="flex items-center gap-[10px]">
                   {/* Color buttons use hex directly */}
@@ -143,13 +135,9 @@ const CreateNote = ({ noteData }) => {
                   Close
                 </button>
               </div>
-</div>            
-
-            
+        </div>              
           )}
         </div>
-
-       
       </div>
     </div>
     </>
