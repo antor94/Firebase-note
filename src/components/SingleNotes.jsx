@@ -4,11 +4,19 @@ import { getDatabase, ref, onValue, set, push, remove } from "firebase/database"
 import { useSelector } from 'react-redux';
 import { TiDelete } from "react-icons/ti";
 import { FiEdit2 } from "react-icons/fi";
+import Notes from '../components/Notes'
+import { LuPin } from "react-icons/lu";
 
 const SingleNotes = () => {
   const [allNotes, setAllNotes] = useState([]);
 
   const [found , setFound ] = useState('')
+
+
+  const [editData , setEditData] = useState('')
+
+
+
 
   const db = getDatabase();
   const currentUser = useSelector((state) => state.myRedux.value);
@@ -47,6 +55,7 @@ const SingleNotes = () => {
 
     <>
 
+    <Notes noteData={editData} />
     <div className='min-h-screen bg-[#202124] p-6'>
       <div className="flex justify-center flex-wrap gap-4">
 
@@ -92,10 +101,10 @@ const SingleNotes = () => {
             <h2 className="text-[24px] font-sans font-medium text-[#fff]">{item.notes.noteHead}</h2>
             <p className="text-[18px] font-normal font-sans text-[#ddd]">{item.notes.noteContent}</p>
             <button onClick={()=>removeItems(item)} className=' absolute top-[10px] right-[20px]'><TiDelete className='text-[32px] text-amber-200 hover:text-[red] duration-[.3s] ' /></button>
-            <button onClick={()=>removeItems(item)} className=' absolute top-[15px] right-[60px]'><FiEdit2 className='text-[20px] text-amber-200 hover:text-green-500 duration-[.3s] ' /></button>
+            <button onClick={()=>setEditData(item)}  className=' absolute top-[15px] right-[60px]'><FiEdit2 className='text-[20px] text-amber-200 hover:text-green-500 duration-[.3s] ' /></button>
+            <button   className=' absolute top-[15px] right-[90px]'><LuPin className='text-[20px] text-amber-200 hover:text-sky-500 duration-[.3s] ' /></button>
           </div>
         ))
-      
       }
       </div>
 
