@@ -10,12 +10,9 @@ const CreateNote = ({ noteData }) => {
   const [textColor, setTextColor] = useState('text-white');
   const currentUser = useSelector((state) => state.myRedux.value);
 
-
+  // --------------- update data
   const [isUpdate , setIsUpdate] = useState(false)
-
-
-
-
+  // ------------- firebase db
   const db = getDatabase();
 
   const handleAdd = () => {
@@ -48,10 +45,8 @@ const CreateNote = ({ noteData }) => {
   };
 
   useEffect(() => {
-
     if(noteData){
       setIsUpdate(true)
-      
     setTitle(noteData?.notes?.noteHead );
     setContent(noteData?.notes?.noteContent );
     setNoteColor(noteData?.notes?.noteColor || '#2D2F31');
@@ -94,19 +89,16 @@ const CreateNote = ({ noteData }) => {
 :
           <button onClick={handleAdd} className='w-[200px]'>Add Note</button>
           }
-
-  </div>
+        </div>
           {/* -------------- textarea */}
 
           {showTextarea && (
         <div>
-
               <textarea
                 placeholder="Write more details..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className={`bg-transparent w-full pt-[20px] placeholder-gray-400 outline-none resize-none h-24 ${textColor}`}  />
-                
+                className={`bg-transparent w-full pt-[20px] placeholder-gray-400 outline-none resize-none h-24 ${textColor}`}  />       
               <div className="flex justify-between items-center w-full mt-2">
                 <div className="flex items-center gap-[10px]">
                   {/* Color buttons use hex directly */}
@@ -114,7 +106,6 @@ const CreateNote = ({ noteData }) => {
                   <button onClick={() => handleColorSelect('#F28B82')} className='w-[20px] h-[20px] border rounded-full bg-[#F28B82]'></button>
                   <button onClick={() => handleColorSelect('#FDCFE8')} className='w-[20px] h-[20px] border rounded-full bg-[#FDCFE8]'></button>
                   <button onClick={() => handleColorSelect('#EF4444')} className='w-[20px] h-[20px] border rounded-full bg-red-400'></button>
-
                   {/* Color picker */}
                   <input
                     type="color"
@@ -123,17 +114,8 @@ const CreateNote = ({ noteData }) => {
                     onChange={(e) => handleColorSelect(e.target.value)}
                   />
                 </div>
-
-                {/* Close Button */}
-                <button
-                  onClick={() => {
-                
-                    handleClose();
-                  }}
-                  className="text-sm text-white hover:text-red-300 px-3 py-1 rounded-md"
-                >
-                  Close
-                </button>
+                {/*----------------- Close Button */}
+                <button onClick={() => {handleClose()}}  className="text-sm text-white hover:text-red-300 px-3 py-1 rounded-md" >   Close  </button>
               </div>
         </div>              
           )}
