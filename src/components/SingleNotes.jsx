@@ -12,11 +12,7 @@ const SingleNotes = () => {
 
   const [found , setFound ] = useState('')
 
-
   const [editData , setEditData] = useState('')
-
-
-
 
   const db = getDatabase();
   const currentUser = useSelector((state) => state.myRedux.value);
@@ -32,11 +28,8 @@ const SingleNotes = () => {
       });
 
       setAllNotes(myArr);
-
-    
     });
   }, []);
-
 
   const removeItems =(data)=>{
   set(push(ref(db, 'removeNote/' )), {
@@ -60,7 +53,6 @@ const SingleNotes = () => {
       <div className="flex justify-center flex-wrap gap-4">
 
         {
-
           found == null ?
 
       <div role="status" className="max-w-sm p-4 border border-gray-200 rounded-sm shadow-sm animate-pulse md:p-6 dark:border-gray-700">
@@ -86,14 +78,11 @@ const SingleNotes = () => {
             <span className="sr-only">Loading...</span>
           </div>
       :
-
       allNotes.length == 0?
       <h2 className="text-[64px] font-bold font-sans text-[#fff]">🗒️ No notes found.</h2>
 
           :
     <div className='flex flex-wrap justify-center gap-4'>
-
-
           {
             
             allNotes.map((item) => (
@@ -109,7 +98,6 @@ const SingleNotes = () => {
       </div>
 
         }
-
       </div>
     </div>
 
